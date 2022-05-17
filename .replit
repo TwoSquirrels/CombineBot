@@ -1,0 +1,5 @@
+run = ["pnpm", "start"]
+onBoot = ["corepack", "enable"]
+language = "nodejs"
+[interpreter]
+command = ["pnpm", "install"]
