@@ -2,7 +2,7 @@
 
 ２人のユーザーを合体させる Discord BOT です
 
-[招待はこちらから！]()
+[招待はこちらから！](//discord.com/api/oauth2/authorize?client_id=976020246769074196&permissions=275414838272&scope=bot)
 
 ## How to use this BOT
 
@@ -11,7 +11,7 @@
 
 © 2022 TwoSquirrels
 
-[MIT](/LICENSE) License です1
+[MIT](/LICENSE) License です
 
 ## Development
 
