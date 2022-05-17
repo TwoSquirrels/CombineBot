@@ -3,6 +3,8 @@
 const dotenv = require("dotenv");
 const { Client, Intents } = require("discord.js");
 
+const command = require("./command.js");
+
 // prepare
 
 dotenv.config();
@@ -12,7 +14,7 @@ if (process.env.HTTP_SERVER) {
   server.get("/", (req, res) =>
     res.send(
       '<center><h1><a href="//github.com/TwoSquirrels/CombineBot#readme">' +
-        "合体 BOT</a> は起動しています</h1></center>"
+        "CombineBOT</a> は起動しています</h1></center>"
     )
   );
   server.listen(3000, () => console.log("Express ready!"));
@@ -26,14 +28,14 @@ const bot = new Client({
     "GUILD_WEBHOOKS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
-  ].map((intent_id) => Intents.FLAGS[intent_id]),
+  ].map((intentId) => Intents.FLAGS[intentId]),
 });
 
 // register events
 
 bot.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-  if (message.content === "ping") await message.reply("pong");
+  if (message.content.startsWith(`<@${bot.user.id}>`)) await command(bot, message);
 });
 
 bot.once("ready", () => console.log("BOT ready!"));
