@@ -39,6 +39,7 @@ if (process.env.HTTP_SERVER) {
     client.once("ready", () => resolve(undefined));
     client.login(process.env.DISCORD_TOKEN);
   });
+  console.log("BOT ready!");
 
   // command prefix
   const PREFIX = `<@${client.user?.id}>`;
