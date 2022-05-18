@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 const dotenv = require("dotenv");
-const { Client, Intents } = require("discord.js");
+const { Client, Intents, User } = require("discord.js");
 
 const command = require("./command.js");
 
@@ -22,23 +22,32 @@ if (process.env.HTTP_SERVER) {
 
 // bot
 
-const bot = new Client({
-  intents: [
-    "GUILDS",
-    "GUILD_WEBHOOKS",
-    "GUILD_MESSAGES",
-    "DIRECT_MESSAGES",
-  ].map((intentId) => Intents.FLAGS[intentId]),
-});
+(async () => {
+  // start bot
 
-// register events
+  const client = new Client({
+    intents: [
+      Intents.FLAGS.GUILDS,
+      Intents.FLAGS.GUILD_WEBHOOKS,
+      Intents.FLAGS.GUILD_MESSAGES,
+      Intents.FLAGS.DIRECT_MESSAGES,
+    ],
+  });
 
-bot.on("messageCreate", async (message) => {
-  if (message.author.bot) return;
-  if (message.content.startsWith(`<@${bot.user.id}>`)) await command(bot, message);
-});
+  // wait init
+  await new Promise((resolve) => {
+    client.once("ready", () => resolve(undefined));
+    client.login(process.env.DISCORD_TOKEN);
+  });
 
-bot.once("ready", () => console.log("BOT ready!"));
+  // command prefix
+  const PREFIX = `<@${client.user?.id}>`;
 
-// login
-bot.login(process.env.DISCORD_TOKEN);
+  // register events
+
+  client.on("messageCreate", async (message) => {
+    if (message.author.bot) return;
+    if (message.content.startsWith(PREFIX))
+      await command(client, message, PREFIX);
+  });
+})().catch(console.error);
