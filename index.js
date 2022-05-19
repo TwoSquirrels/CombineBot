@@ -41,14 +41,11 @@ if (process.env.HTTP_SERVER) {
   });
   console.log("BOT ready!");
 
-  // command prefix
-  const PREFIX = `<@${client.user?.id}>`;
-
   // register events
 
   client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
-    if (message.content.startsWith(PREFIX))
-      await command(client, message, PREFIX);
+    if (message.mentions.users.has(String(client.user?.id)))
+      await command(client, message);
   });
 })().catch(console.error);
